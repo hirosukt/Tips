@@ -14,9 +14,11 @@ plugins {
     id("org.jmailen.kotlinter") version "3.8.0"
 }
 
+val semVersion: String = "1.0.0"
 val gitVersion: Closure<String> by extra
-
 val pluginVersion: String by project.ext
+
+version = semVersion
 
 repositories {
     mavenCentral()
@@ -30,14 +32,15 @@ configurations["implementation"].extendsFrom(shadowImplementation)
 
 dependencies {
     shadowImplementation(kotlin("stdlib"))
-    compileOnly "io.papermc.paper:paper-api:$pluginVersion-R0.1-SNAPSHOT"
-    compileOnly "dev.jorel:commandapi-core:8.5.1"
+    compileOnly("io.papermc.paper:paper-api:$pluginVersion-R0.1-SNAPSHOT")
+    compileOnly("dev.jorel:commandapi-core:8.5.1")
 }
 
 configure<BukkitPluginDescription> {
-    main = "@group@.Main"
-    version = gitVersion()
+    main = "com.github.hirosukt.Main"
+    version = "$semVersion-" + gitVersion().split(".")[0]
     apiVersion = "1." + pluginVersion.split(".")[1]
+    author = "hirosukt"
 }
 
 kotlinter {
@@ -47,9 +50,9 @@ kotlinter {
 tasks.withType<ShadowJar> {
     configurations = listOf(shadowImplementation)
     archiveClassifier.set("")
-    relocate("kotlin", "@group@.libs.kotlin")
-    relocate("org.intellij.lang.annotations", "@group@.libs.org.intellij.lang.annotations")
-    relocate("org.jetbrains.annotations", "@group@.libs.org.jetbrains.annotations")
+    relocate("kotlin", "com.github.hirosukt.libs.kotlin")
+    relocate("org.intellij.lang.annotations", "com.github.hirosukt.libs.org.intellij.lang.annotations")
+    relocate("org.jetbrains.annotations", "com.github.hirosukt.libs.org.jetbrains.annotations")
 }
 
 tasks.named("build") {
@@ -74,7 +77,7 @@ listOf(
             }
         }
 
-        jarUrl.set(JarUrl.Paper($version))
+        jarUrl.set(JarUrl.Paper(version))
         jarName.set("server.jar")
         serverDirectory.set(buildDir.resolve("MinecraftServer-$version"))
         nogui.set(true)

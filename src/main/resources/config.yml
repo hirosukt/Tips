@@ -1,7 +1,3 @@
-# Tips
-
-## Configuration
-```
 containers:
   default:
     seconds: 0
@@ -18,19 +14,3 @@ containers:
     randomMessage: false
     messages:
       - "A day finished."
-```
-
-* `seconds`  
-seconds of timer.
-
-* `minutes`  
-minutes of timer.
-
-* `hours`  
-hours of timer.
-
-* `randomMessage`  
-randomized message choice from `messages`.
-
-* `messages`
-message list of sending.
